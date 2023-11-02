@@ -1,5 +1,6 @@
 use html5ever::serialize::TraversalScope::*;
-use html5ever::serialize::{serialize, Serialize, SerializeOpts, Serializer, TraversalScope};
+use html5ever::serialize::{serialize, Serialize, Serializer};
+pub use html5ever::serialize::{SerializeOpts, TraversalScope};
 use html5ever::QualName;
 use std::fs::File;
 use std::io::{Result, Write};
@@ -93,6 +94,16 @@ impl NodeRef {
                 traversal_scope: IncludeNode,
                 ..Default::default()
             },
+        )
+    }
+
+    /// Serialize in HTML syntax to the given stream using the supplied options.
+    #[inline]
+    pub fn serialize_with_options<W: Write>(&self, writer: &mut W, opts: SerializeOpts) -> Result<()> {
+        serialize(
+            writer,
+            self,
+            opts
         )
     }
 
